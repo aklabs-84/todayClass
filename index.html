@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>오늘의 수업 기록</title>
+
+  <!-- Tailwind & html2canvas (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- 분리된 CSS -->
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Top Navigation -->
+  <nav id="top-nav" class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+      <div class="min-h-14 py-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <span class="text-lg sm:text-xl font-extrabold text-blue-600 whitespace-nowrap">오늘의 수업 기록</span>
+          <span id="nav-school-info" class="hidden md:inline text-xs sm:text-sm text-gray-500"></span>
+        </div>
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-1 px-1 sm:mx-0 sm:px-0">
+          <button id="roster-button" type="button" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-amber-600 hover:bg-amber-700 text-white">출석부</button>
+          <button id="board-button" type="button" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-gray-200 hover:bg-gray-300 text-gray-800 hidden">보드 보기</button>
+          <button id="circular-layout-button" type="button" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white whitespace-nowrap">원형 정렬</button>
+          <button id="grid-layout-button" type="button" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-slate-700 hover:bg-slate-800 text-white whitespace-nowrap">격자 정렬</button>
+          <button id="copy-names-button" type="button" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-gray-800 hover:bg-gray-900 text-white whitespace-nowrap">이름 전체 복사</button>
+          <button id="capture-button" type="button" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-green-600 hover:bg-green-700 text-white">캡쳐</button>
+          <button id="delete-mode-button" type="button" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-rose-600 hover:bg-rose-700 text-white">삭제 모드: OFF</button>
+          <button id="guide-button" type="button" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-blue-100 hover:bg-blue-200 text-blue-700">사용방법</button>
+  <!-- 사용방법 안내 모달 -->
+  <div id="guide-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-7 relative">
+      <button id="close-guide-modal" class="absolute top-3 right-3 px-2 py-1 rounded bg-blue-100 text-blue-700 font-bold">닫기</button>
+      <h2 class="text-xl font-bold text-blue-600 mb-4">오늘의 수업 기록 사용방법</h2>
+      <ol class="list-decimal list-inside text-base text-gray-700 space-y-2 mb-2">
+        <li><b>기록하기</b>를 눌러 보드로 이동</li>
+        <li>날짜·학교·반 입력 후 <b>학생 이름</b> 추가</li>
+        <li>상단 <b>출석부</b>에서 목록/필터/CSV 내보내기</li>
+        <li><b>삭제 모드</b>에서 보드 학생 클릭 시 기록 삭제</li>
+        <li><b>캡쳐</b>로 현재 보드를 이미지 저장</li>
+      </ol>
+      <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 mb-2">
+        <li>로컬 스토리지 자동 저장</li>
+        <li>학교/날짜 필터 & 선택 삭제</li>
+        <li>선택/현재 목록 CSV 다운로드</li>
+        <li>격자/원형 정렬</li>
+        <li>반응형 UI</li>
+      </ul>
+      <p class="text-xs text-gray-400">* 언제든 상단 '사용방법' 버튼을 눌러 확인할 수 있습니다.</p>
+    </div>
+  </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- App Wrapper -->
+  <div id="app" class="flex flex-col md:flex-row gap-4 md:gap-0 min-h-[calc(100vh-64px)]">
+    <!-- Left Panel -->
+    <div class="md:w-1/3 w-full p-4 sm:p-6 bg-white shadow-xl flex flex-col justify-center items-center md:rounded-r-3xl rounded-none order-2 md:order-1">
+      <div class="w-full max-w-sm">
+        <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-blue-600 mb-3 sm:mb-4 text-center">학생 정보 입력</h1>
+        <p class="text-xs sm:text-sm md:text-base text-gray-500 mb-3 sm:mb-4 text-center">날짜/학교/반을 입력하고 학생 이름을 추가하세요. 저장은 자동!</p>
+
+        <div class="space-y-2 sm:space-y-3 mb-4">
+          <input id="date-input" type="date" class="w-full p-2.5 sm:p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          <input id="school-name-input" type="text" class="w-full p-2.5 sm:p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="학교 이름 입력..."/>
+          <input id="class-name-input" type="text" class="w-full p-2.5 sm:p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="반 이름 입력..."/>
+
+          <form id="add-student-form" class="flex flex-col sm:flex-row gap-2">
+            <input id="student-name-input" type="text" autocomplete="off" class="flex-1 p-2.5 sm:p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="학생 이름 입력..." aria-label="학생 이름"/>
+            <button id="add-student-button" type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl shadow-md">추가</button>
+          </form>
+        </div>
+
+        <div class="flex gap-2">
+          <button id="clear-board-button" type="button" class="flex-1 px-3 py-2 rounded-lg text-sm font-semibold bg-gray-200 hover:bg-gray-300 text-gray-800">보드 비우기</button>
+        </div>
+
+        <p class="text-xs sm:text-sm md:text-base text-gray-500 text-center mt-3">
+          새 학생은 중앙 기준으로 퍼지듯 배치돼요. 삭제 모드에서는 배지를 탭/클릭하면 삭제됩니다.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Panel (Board / Roster) -->
+    <div class="relative md:w-2/3 w-full h-[60vh] md:h-[calc(100vh-64px)] overflow-hidden p-0 order-1 md:order-2">
+      <!-- Board View -->
+      <div id="board-view" class="h-full w-full p-3 sm:p-6 md:p-8">
+        <div id="student-container" class="relative h-full w-full overflow-hidden touch-none md:rounded-l-3xl rounded-2xl">
+          <div id="school-info" class="absolute top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 text-base sm:text-lg md:text-xl font-bold text-gray-700"></div>
+          <div id="placeholder-message" class="absolute inset-0 flex items-center justify-center text-center text-gray-400">
+            <div class="p-4">
+              <span class="text-5xl sm:text-6xl mb-4 inline-block">😎</span>
+              <p class="text-base sm:text-lg">학생 아이콘이 여기에 나타납니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roster View -->
+      <div id="roster-view" class="h-full w-full hidden">
+        <div class="h-full w-full overflow-auto bg-white md:rounded-l-3xl rounded-2xl">
+          <div class="p-4 sm:p-6">
+            <h2 class="text-xl sm:text-2xl font-extrabold text-amber-600 mb-3 sm:mb-4">출석부 기록</h2>
+            <p class="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">드롭다운으로 학교/날짜를 고르거나, 체크박스로 여러 행을 선택해 삭제·내보내기가 가능해요.</p>
+
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <label class="text-xs sm:text-sm text-gray-600">학교</label>
+              <select id="filter-school" class="px-2.5 py-2 sm:px-3 sm:py-2 border rounded-lg text-xs sm:text-sm min-w-[140px] sm:min-w-[160px]">
+                <option value="">전체</option>
+              </select>
+              <label class="text-xs sm:text-sm text-gray-600">날짜</label>
+              <select id="filter-date" class="px-2.5 py-2 sm:px-3 sm:py-2 border rounded-lg text-xs sm:text-sm min-w-[120px] sm:min-w-[140px]">
+                <option value="">전체</option>
+              </select>
+
+              <div class="flex gap-2 ml-auto flex-wrap">
+                <button id="load-from-filter-button" type="button" class="px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-amber-600 hover:bg-amber-700 text-white">불러오기</button>
+                <button id="delete-selected-button" type="button" class="px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-rose-600 hover:bg-rose-700 text-white">선택 삭제</button>
+                <button id="export-selected-button" type="button" class="px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-slate-700 hover:bg-slate-800 text-white">선택 CSV</button>
+                <button id="export-current-button" type="button" class="px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-gray-800 hover:bg-gray-900 text-white">현재 CSV</button>
+              </div>
+            </div>
+            <p class="text-[11px] sm:text-xs text-gray-500 mb-2">헤더 체크박스로 전체 선택, 일부만 선택하면 헤더가 – 표시됩니다.</p>
+
+            <div class="overflow-x-auto border rounded-xl">
+              <table class="min-w-full text-xs sm:text-sm">
+                <thead class="bg-gray-50 sticky top-0 z-10">
+                  <tr>
+                    <th class="px-3 sm:px-4 py-2 sm:py-3 text-left"><input id="select-all" type="checkbox" class="w-4 h-4"></th>
+                    <th class="px-3 sm:px-4 py-2 sm:py-3 text-left font-semibold text-gray-700 whitespace-nowrap">날짜</th>
+                    <th class="px-3 sm:px-4 py-2 sm:py-3 text-left font-semibold text-gray-700 whitespace-nowrap">학교</th>
+                    <th class="px-3 sm:px-4 py-2 sm:py-3 text-left font-semibold text-gray-700 whitespace-nowrap">반</th>
+                    <th class="px-3 sm:px-4 py-2 sm:py-3 text-left font-semibold text-gray-700 whitespace-nowrap">학생 이름</th>
+                    <th class="px-3 sm:px-4 py-2 sm:py-3 text-left font-semibold text-gray-700 whitespace-nowrap">생성시간</th>
+                  </tr>
+                </thead>
+                <tbody id="roster-tbody" class="divide-y divide-gray-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Roster View -->
+    </div>
+  </div>
+
+  <!-- 분리된 JS -->
+  <script src="app.js"></script>
+</body>
+</html>
