@@ -205,14 +205,14 @@ document.addEventListener('DOMContentLoaded', () => {
   div.appendChild(badge);
 
     const emojiSpan = document.createElement('span');
-    emojiSpan.className = 'text-xl sm:text-2xl mr-2';
-    emojiSpan.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    div.appendChild(emojiSpan);
+emojiSpan.className = 'emoji text-xl sm:text-2xl mr-2';
+emojiSpan.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+div.appendChild(emojiSpan);
 
     const nameSpan = document.createElement('span');
-    nameSpan.className = 'text-sm sm:text-base font-medium whitespace-nowrap';
-    nameSpan.textContent = name;
-    div.appendChild(nameSpan);
+nameSpan.className = 'name text-sm sm:text-base font-medium whitespace-nowrap';
+nameSpan.textContent = name;
+div.appendChild(nameSpan);
 
     // 이름/이모지 클릭 시 드래그 (삭제모드 아닐 때만)
     [emojiSpan, nameSpan].forEach(span => {
@@ -343,39 +343,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Capture (파일명: 현재 보드 날짜)
   const captureAndDownload = () => {
-    const el = studentContainer;
-    const school = sanitize(schoolNameInput.value) || '학교';
-    const klass  = sanitize(classNameInput.value)  || '반';
-    const dateStr = (dateInput.value || todayStr());
-    const filename = `${school}_${klass}_${dateStr}.png`;
+  const el = studentContainer;
+  const school = sanitize(schoolNameInput.value) || '학교';
+  const klass  = sanitize(classNameInput.value)  || '반';
+  const dateStr = (dateInput.value || todayStr());
+  const filename = `${school}_${klass}_${dateStr}.png`;
 
-    const bg = getComputedStyle(el).backgroundColor || '#eff6ff';
-    html2canvas(el, {
-      backgroundColor: bg,
-      scale: Math.max(2, window.devicePixelRatio || 1),
-      useCORS: true,
-      foreignObjectRendering: false,
-      removeContainer: true,
-      logging: false,
-      width: el.scrollWidth,
-      height: el.scrollHeight,
-      onclone: (doc) => {
-        const cloneEl = doc.getElementById('student-container');
-        if (cloneEl) {
-          cloneEl.style.transform = 'none';
-          cloneEl.style.backfaceVisibility = 'visible';
-          cloneEl.classList.add('capture-safe');
-        }
+  html2canvas(el, {
+    backgroundColor: '#ffffff',                     // 항상 흰 배경
+    scale: Math.max(2, window.devicePixelRatio || 1),
+    useCORS: true,
+    foreignObjectRendering: false,
+    removeContainer: true,
+    logging: false,
+    width: el.scrollWidth,
+    height: el.scrollHeight,
+    onclone: (doc) => {
+      const cloneEl = doc.getElementById('student-container');
+      if (cloneEl) {
+        cloneEl.style.transform = 'none';
+        cloneEl.style.backfaceVisibility = 'visible';
+        cloneEl.classList.add('capture-safe');      // 캡처 전용 스타일 적용
       }
-    }).then((canvas) => {
-      const a = document.createElement('a');
-      a.href = canvas.toDataURL('image/png');
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    });
-  };
+    }
+  }).then((canvas) => {
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+};
+
   captureButton.addEventListener('click', captureAndDownload);
 
   // Delete mode toggle
