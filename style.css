@@ -98,22 +98,35 @@ button.active-menu {
 /* 학생 아이템 내부 콘텐츠가 점선보다 위에 오도록 조정 */
 .student-item > * { position: relative; z-index: 2; }
 
-/* 캡처 전용: 흰 배경 + 불필요 요소 숨김 */
-.capture-safe { background: #ffffff !important; }
-.capture-safe #school-info,
+/* 캡처 모드에서 숨길 것들 */
 .capture-safe #placeholder-message,
+.capture-safe .starter-emoji,
+.capture-safe #school-title,
+.capture-safe #class-title,
+.capture-safe #school-info,
 .capture-safe .delete-badge { display: none !important; }
 
-/* 배지 내부 콘텐츠 정확한 중앙 정렬 */
+/* 학생 배지 정확한 중앙 정렬 */
 .student-item {
-  display: inline-flex;            /* 기존 flex 유지 */
-  align-items: center;             /* 수직 중앙 */
-  justify-content: center;         /* 수평 중앙 */
+  display: inline-flex;            /* 가로 배치 */
+  align-items: center;             /* 세로 중앙 */
+  justify-content: center;         /* 가로 중앙 */
   gap: 8px;
+  height: 48px;                    /* 고정 높이(배지 높이) */
+  padding: 8px 14px;               /* 라운드 칩 내부 여백 */
+  background: #fff;                /* 배지 자체도 흰색 */
+  border-radius: 9999px;           /* 완전 라운드 */
+  box-shadow: 0 4px 14px rgba(0,0,0,.12);
 }
+
 .student-item .emoji,
 .student-item .name {
   display: inline-flex;
   align-items: center;
-  line-height: 1;                  /* 폰트 베이스라인 영향 제거 */
+  justify-content: center;
+  line-height: 1;                  /* 베이스라인 문제 제거 */
 }
+
+.student-item .emoji { font-size: 22px; }
+.student-item .name  { font-size: 14px; font-weight: 600; white-space: nowrap; }
+
