@@ -342,15 +342,17 @@ div.appendChild(nameSpan);
   copyNamesBtn.addEventListener('click', copyAllNames);
 
   // Capture (파일명: 현재 보드 날짜)
-  const captureAndDownload = () => {
-  const el = studentContainer;
-  const school = sanitize(schoolNameInput.value) || '학교';
-  const klass  = sanitize(classNameInput.value)  || '반';
-  const dateStr = (dateInput.value || todayStr());
+  // 저장(캡처) 함수
+const captureAndDownload = () => {
+  const el = document.getElementById('student-container'); // 학생 배지 영역
+  const school = (schoolNameInput?.value || '학교').trim();
+  const klass  = (classNameInput?.value  || '반').trim();
+  const dateStr = (dateInput?.value || new Date().toISOString().slice(0,10));
   const filename = `${school}_${klass}_${dateStr}.png`;
 
+  // html2canvas 옵션
   html2canvas(el, {
-    backgroundColor: '#ffffff',                     // 항상 흰 배경
+    backgroundColor: '#ffffff',                // <-- 항상 하얀 배경
     scale: Math.max(2, window.devicePixelRatio || 1),
     useCORS: true,
     foreignObjectRendering: false,
@@ -359,12 +361,42 @@ div.appendChild(nameSpan);
     width: el.scrollWidth,
     height: el.scrollHeight,
     onclone: (doc) => {
-      const cloneEl = doc.getElementById('student-container');
-      if (cloneEl) {
-        cloneEl.style.transform = 'none';
-        cloneEl.style.backfaceVisibility = 'visible';
-        cloneEl.classList.add('capture-safe');      // 캡처 전용 스타일 적용
-      }
+      // 캡처본 DOM에 캡처 전용 클래스 부여 → 불필요 요소 숨김
+      doc.body.classList.add('capture-safe');
+
+      // 혹시 학생 영역 안에 안내 문구/스타터 이모지가 같이 들어가 있다면 강제 제거
+      const kill = [
+        '#placeholder-message',
+        '.starter-emoji',
+        '#school-title',
+        '#class-title',
+        '#school-info'
+      ];
+      kill.forEach(sel => doc.querySelectorAll(sel).forEach(n => n.remove()));
+
+      // 텍스트로 남아있는 안내 문구를 안전하게 제거(예: "학생 아이콘이 여기에 나타납니다.")
+      doc.querySelectorAll('#student-container *').forEach(n => {
+        if (n.childNodes?.length === 1 && n.textContent?.trim() === '학생 아이콘이 여기에 나타납니다.') {
+          n.remove();
+        }
+      });
+
+      // 배지 안 중앙정렬이 확실하도록 클래스 보정
+      doc.querySelectorAll('.student-item').forEach(badge => {
+        badge.style.display = 'inline-flex';
+        badge.style.alignItems = 'center';
+        badge.style.justifyContent = 'center';
+        badge.style.background = '#ffffff';
+        badge.style.borderRadius = '9999px';
+        badge.style.height = '48px';
+        badge.style.padding = '8px 14px';
+      });
+      doc.querySelectorAll('.student-item .emoji, .student-item .name').forEach(s => {
+        s.style.display = 'inline-flex';
+        s.style.alignItems = 'center';
+        s.style.justifyContent = 'center';
+        s.style.lineHeight = '1';
+      });
     }
   }).then((canvas) => {
     const a = document.createElement('a');
@@ -373,7 +405,7 @@ div.appendChild(nameSpan);
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-  });
+  }).catch(console.error);
 };
 
   captureButton.addEventListener('click', captureAndDownload);
