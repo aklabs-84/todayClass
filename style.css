@@ -97,3 +97,23 @@ button.active-menu {
 
 /* 학생 아이템 내부 콘텐츠가 점선보다 위에 오도록 조정 */
 .student-item > * { position: relative; z-index: 2; }
+
+/* 캡처 전용: 흰 배경 + 불필요 요소 숨김 */
+.capture-safe { background: #ffffff !important; }
+.capture-safe #school-info,
+.capture-safe #placeholder-message,
+.capture-safe .delete-badge { display: none !important; }
+
+/* 배지 내부 콘텐츠 정확한 중앙 정렬 */
+.student-item {
+  display: inline-flex;            /* 기존 flex 유지 */
+  align-items: center;             /* 수직 중앙 */
+  justify-content: center;         /* 수평 중앙 */
+  gap: 8px;
+}
+.student-item .emoji,
+.student-item .name {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;                  /* 폰트 베이스라인 영향 제거 */
+}
