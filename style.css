@@ -22,111 +22,67 @@ body { font-family: 'Inter', sans-serif; }
   transform: translate(-50%, -50%);
   width: calc(100% + 22px); /* 학생 박스보다 약간 더 큰 원 */
   height: calc(100% + 22px);
+  border: 2px dashed #ef4444;
   border-radius: 9999px;
-  border: 3px dashed rgba(239, 68, 68, 0.95); /* 선 색상과 두께 */
-  pointer-events: none; /* 클릭 막음 */
-  z-index: 0; /* 학생 내부 콘텐츠 위에 배치되지 않도록 */
+  pointer-events: none;
 }
 
-/* 삭제 배지: 박스 아래 중앙에 빨간색 x로 표시 */
+/* 삭제 X 배지(우상단) */
 .delete-badge {
   position: absolute;
-  left: 50%;
-  top: calc(100% + 8px); /* 박스 바로 아래에 위치 */
-  transform: translate(-50%, 0);
-  width: 28px;
-  height: 28px;
+  top: -10px; right: -10px;
+  background: #ef4444; 
+  color: #fff; 
   border-radius: 9999px;
-  background: #ffffff; /* 흰 배경으로 x를 빨간색으로 표시 */
-  color: #ef4444; /* x 문자는 빨간색 */
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 28px;
-  text-align: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  display: none; /* JS로 컨트롤 */
-  z-index: 5;
-  border: 2px solid #ef4444; /* 빨간 테두리로 강조 */
-}
-.delete-mode .delete-badge { display: block; }
-
-/* 삭제 텍스트 버튼: 이름 아래 중앙에 표시 */
-.delete-text-button {
-  display: none; /* JS로 컨트롤 */
-  margin-top: 6px;
-  background: transparent;
-  border: none;
-  color: #ef4444;
-  font-size: 12px;
+  width: 24px; height: 24px;
+  font-size: 16px; 
+  font-weight: bold;
+  display: none; 
+  align-items: center; 
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(239,68,68,.4);
   cursor: pointer;
-  padding: 2px 6px;
+  z-index: 10;
+  transition: transform 0.2s, background 0.2s;
 }
-.delete-mode .delete-text-button {
-  display: block;
-}
-
-@keyframes wiggle { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
-
-#student-container { background-color: #eff6ff; }
-.student-item { box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-
-.capture-safe .student-item { box-shadow: none !important; }
-.capture-safe *, .capture-safe .student-item { animation: none !important; }
-
-/* 스크롤바 숨김 */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* 학생 기록 화면 간격 조정 */
-#app {
-  gap: 20px; /* 왼쪽과 오른쪽 영역 사이 간격 추가 */
+.delete-badge:hover {
+  background: #dc2626;
+  transform: scale(1.15);
 }
 
-/* 메뉴 버튼 기본 색상 변경 */
-button {
-  background-color: #f3f4f6; /* 옅은 회색 */
-  color: #000000; /* 검정색 텍스트 */
-}
-button:hover {
-  background-color: #e5e7eb; /* 약간 더 진한 회색 */
-}
-button.active-menu {
-  background-color: #2563eb !important; /* 파란색 계열 배경 */
-  color: #ffffff !important; /* 하얀색 텍스트 */
+/* 삭제 모드일 때 배지 보이기 */
+.delete-mode .delete-badge {
+  display: flex !important;
 }
 
-/* 학생 아이템 내부 콘텐츠가 점선보다 위에 오도록 조정 */
-.student-item > * { position: relative; z-index: 2; }
+/* 흔들림 애니메이션 */
+@keyframes wiggle {
+  from { transform: translateY(-2px) rotate(-1.2deg); }
+  to   { transform: translateY( 2px) rotate( 1.2deg); }
+}
 
-/* 캡처 모드에서 숨길 것들 */
+/* === Capture mode cleanup & badge centering === */
 .capture-safe #placeholder-message,
 .capture-safe .starter-emoji,
-.capture-safe #school-title,
-.capture-safe #class-title,
-.capture-safe #school-info,
 .capture-safe .delete-badge { display: none !important; }
 
-/* 학생 배지 정확한 중앙 정렬 */
-.student-item {
-  display: inline-flex;            /* 가로 배치 */
-  align-items: center;             /* 세로 중앙 */
-  justify-content: center;         /* 가로 중앙 */
-  gap: 8px;
-  height: 48px;                    /* 고정 높이(배지 높이) */
-  padding: 8px 14px;               /* 라운드 칩 내부 여백 */
-  background: #fff;                /* 배지 자체도 흰색 */
-  border-radius: 9999px;           /* 완전 라운드 */
-  box-shadow: 0 4px 14px rgba(0,0,0,.12);
+.student-item{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  height:48px;
+  padding:8px 14px;
+  background:#fff;
+  border-radius:9999px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
 }
-
 .student-item .emoji,
-.student-item .name {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;                  /* 베이스라인 문제 제거 */
+.student-item .name{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
 }
-
-.student-item .emoji { font-size: 22px; }
-.student-item .name  { font-size: 14px; font-weight: 600; white-space: nowrap; }
-
+.student-item .emoji{ font-size:22px; }
+.student-item .name{  font-size:14px; font-weight:600; white-space:nowrap; }
