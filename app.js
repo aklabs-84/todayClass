@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <ol>
                 <li><strong>학생 추가:</strong> "학생 추가" 섹션에서 학생 이름을 입력하고 "추가" 버튼을 클릭하세요.</li>
                 <li><strong>자동 배치:</strong> 추가된 학생은 오른쪽 보드 화면에 랜덤한 위치에 자동 배치됩니다.</li>
+                <li><strong>드래그 이동:</strong> 학생 아이콘을 마우스로 클릭하고 드래그하여 원하는 위치로 자유롭게 이동할 수 있습니다.</li>
                 <li><strong>원형 정렬:</strong> "원형 정렬" 버튼을 눌러 학생들을 원형으로 정렬할 수 있습니다.</li>
                 <li><strong>격자 정렬:</strong> "격자 정렬" 버튼을 눌러 학생들을 격자 형태로 정렬할 수 있습니다.</li>
               </ol>
@@ -200,10 +201,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 학생 아이템 DOM
   const emojis = ['😀','😄','😊','🦊','🐻','🐼','🦁','🐯','🐶','🐱','🐵','🐸','🐨','🐰','🐹','🦄','🐷','🐮'];
+  
+  // 드래그 관련 변수
+  let isDragging = false;
+  let currentDragElement = null;
+  let offsetX = 0;
+  let offsetY = 0;
+
   const createStudentItem = (name) => {
     const div = document.createElement('div');
     div.className = 'student-item select-none shadow ring-1 ring-gray-200 text-gray-800';
     div.style.position = 'absolute';
+    div.style.cursor = 'move';
 
     // 랜덤 위치 생성 (컨테이너 영역 내에서)
     const containerRect = studentContainer.getBoundingClientRect();
@@ -241,8 +250,107 @@ document.addEventListener('DOMContentLoaded', () => {
       togglePlaceholder();
     });
 
+    // 드래그 시작
+    div.addEventListener('mousedown', (e) => {
+      // 삭제 버튼 클릭 시에는 드래그 방지
+      if (e.target.classList.contains('delete-badge')) return;
+      
+      isDragging = true;
+      currentDragElement = div;
+      
+      // 현재 위치 계산
+      const rect = div.getBoundingClientRect();
+      const containerRect = studentContainer.getBoundingClientRect();
+      
+      offsetX = e.clientX - rect.left - rect.width / 2;
+      offsetY = e.clientY - rect.top - rect.height / 2;
+      
+      div.style.zIndex = '1000';
+      div.style.cursor = 'grabbing';
+      
+      e.preventDefault();
+    });
+
+    // 터치 이벤트 지원 (모바일)
+    div.addEventListener('touchstart', (e) => {
+      if (e.target.classList.contains('delete-badge')) return;
+      
+      isDragging = true;
+      currentDragElement = div;
+      
+      const touch = e.touches[0];
+      const rect = div.getBoundingClientRect();
+      
+      offsetX = touch.clientX - rect.left - rect.width / 2;
+      offsetY = touch.clientY - rect.top - rect.height / 2;
+      
+      div.style.zIndex = '1000';
+      div.style.cursor = 'grabbing';
+      
+      e.preventDefault();
+    });
+
     return div;
   };
+
+  // 전역 마우스 이동 이벤트
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging || !currentDragElement) return;
+    
+    const containerRect = studentContainer.getBoundingClientRect();
+    
+    // 마우스 위치를 컨테이너 기준 좌표로 변환
+    let newX = e.clientX - containerRect.left - offsetX;
+    let newY = e.clientY - containerRect.top - offsetY;
+    
+    // 경계 제한
+    const margin = 20;
+    newX = Math.max(margin, Math.min(containerRect.width - margin, newX));
+    newY = Math.max(margin, Math.min(containerRect.height - margin, newY));
+    
+    currentDragElement.style.left = `${newX}px`;
+    currentDragElement.style.top = `${newY}px`;
+  });
+
+  // 전역 마우스 업 이벤트
+  document.addEventListener('mouseup', () => {
+    if (isDragging && currentDragElement) {
+      currentDragElement.style.zIndex = '';
+      currentDragElement.style.cursor = 'move';
+    }
+    isDragging = false;
+    currentDragElement = null;
+  });
+
+  // 터치 이동 이벤트
+  document.addEventListener('touchmove', (e) => {
+    if (!isDragging || !currentDragElement) return;
+    
+    const touch = e.touches[0];
+    const containerRect = studentContainer.getBoundingClientRect();
+    
+    let newX = touch.clientX - containerRect.left - offsetX;
+    let newY = touch.clientY - containerRect.top - offsetY;
+    
+    const margin = 20;
+    newX = Math.max(margin, Math.min(containerRect.width - margin, newX));
+    newY = Math.max(margin, Math.min(containerRect.height - margin, newY));
+    
+    currentDragElement.style.left = `${newX}px`;
+    currentDragElement.style.top = `${newY}px`;
+    
+    e.preventDefault();
+  }, { passive: false });
+
+  // 터치 종료 이벤트
+  document.addEventListener('touchend', () => {
+    if (isDragging && currentDragElement) {
+      currentDragElement.style.zIndex = '';
+      currentDragElement.style.cursor = 'move';
+    }
+    isDragging = false;
+    currentDragElement = null;
+  });
 
   // Delete mode toggle - 한 번만 등록!
   deleteModeBtn.addEventListener('click', () => {
