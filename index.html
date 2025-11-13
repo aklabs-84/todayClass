@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
   <style>
     .active-menu {
@@ -21,6 +23,21 @@
       transition: box-shadow 0.2s, border 0.2s, background 0.2s, color 0.2s;
     }
     body { font-family: 'Inter', sans-serif; }
+    
+    /* 입력창과 셀렉트 박스 테두리 스타일 */
+    input[type="text"],
+    input[type="date"],
+    select {
+      border: 2px solid #d1d5db !important;
+    }
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    select:focus {
+      border-color: #f59e0b !important;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+    }
+    
     .delete-mode .student-item {
       position: relative;
       overflow: visible;
@@ -99,6 +116,10 @@
       line-height:1;
     }
     .student-item .emoji{ font-size:22px; }
+    .student-item .student-photo { 
+      flex-shrink: 0;
+      margin-right: 8px;
+    }
     .student-item .name{  font-size:14px; font-weight:600; white-space:nowrap; }
   </style>
 </head>
@@ -154,6 +175,9 @@
           <div class="mt-3 flex flex-wrap gap-2">
             <button id="circular-btn" class="px-3 py-2 rounded-lg bg-sky-100 text-sky-700 hover:bg-sky-200 text-sm">원형 정렬</button>
             <button id="grid-btn" class="px-3 py-2 rounded-lg bg-sky-100 text-sky-700 hover:bg-sky-200 text-sm">격자 정렬</button>
+            <button id="zoom-in-btn" class="px-3 py-2 rounded-lg bg-purple-100 text-purple-700 hover:bg-purple-200 text-sm">🔍 확대</button>
+            <button id="zoom-out-btn" class="px-3 py-2 rounded-lg bg-purple-100 text-purple-700 hover:bg-purple-200 text-sm">🔍 축소</button>
+            <button id="zoom-reset-btn" class="px-3 py-2 rounded-lg bg-purple-100 text-purple-700 hover:bg-purple-200 text-sm">↺ 초기화</button>
             <button id="copy-names-btn" class="px-3 py-2 rounded-lg bg-emerald-100 text-emerald-700 hover:bg-emerald-200 text-sm">이름 복사</button>
             <button id="capture-button" class="px-3 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 text-sm">캡처 저장</button>
             <button id="delete-mode-btn" class="px-3 py-2 rounded-lg bg-rose-100 text-rose-700 hover:bg-rose-200 text-sm">삭제 모드: OFF</button>
@@ -217,7 +241,7 @@
                       <th class="px-3 sm:px-4 py-2 text-left font-semibold text-gray-700 whitespace-nowrap">날짜</th>
                       <th class="px-3 sm:px-4 py-2 text-left font-semibold text-gray-700 whitespace-nowrap">학교</th>
                       <th class="px-3 sm:px-4 py-2 text-left font-semibold text-gray-700 whitespace-nowrap">반</th>
-                      <th class="px-3 sm:px-4 py-2 text-left font-semibold text-gray-700 whitespace-nowrap">이름</th>
+                      <th class="px-3 sm:px-4 py-2 text-left font-semibold text-gray-700 whitespace-nowrap">학생</th>
                       <th class="px-3 sm:px-4 py-2 text-left font-semibold text-gray-700 whitespace-nowrap">생성시간</th>
                     </tr>
                   </thead>
@@ -227,6 +251,25 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 이미지 크롭 모달 -->
+  <div id="crop-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div class="p-4 border-b border-gray-200">
+        <h3 class="text-xl font-bold text-gray-900">사진 편집</h3>
+        <p class="text-sm text-gray-500 mt-1">얼굴 부분을 선택하여 크롭하세요</p>
+      </div>
+      <div class="flex-1 overflow-auto p-4">
+        <div class="max-w-full max-h-[60vh] mx-auto">
+          <img id="crop-image" src="" alt="Crop" class="max-w-full"/>
+        </div>
+      </div>
+      <div class="p-4 border-t border-gray-200 flex gap-2 justify-end">
+        <button id="crop-cancel" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 font-semibold">취소</button>
+        <button id="crop-confirm" class="px-4 py-2 rounded-lg bg-amber-500 text-white hover:bg-amber-600 font-semibold">완료</button>
       </div>
     </div>
   </div>
