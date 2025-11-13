@@ -79,6 +79,17 @@
       background:#fff;
       border-radius:9999px;
       box-shadow:0 4px 14px rgba(0,0,0,.12);
+      cursor: move;
+      user-select: none;
+      transition: box-shadow 0.2s, transform 0.1s;
+    }
+    .student-item:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,.18);
+    }
+    .student-item:active {
+      cursor: grabbing;
+      box-shadow: 0 8px 25px rgba(0,0,0,.25);
+      transform: translate(-50%, -50%) scale(1.05);
     }
     .student-item .emoji,
     .student-item .name{
