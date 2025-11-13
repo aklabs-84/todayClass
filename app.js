@@ -77,6 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li><strong>격자 정렬:</strong> "격자 정렬" 버튼을 눌러 학생들을 격자 형태로 정렬할 수 있습니다.</li>
               </ol>
 
+              <h2>🔍 보드 화면 확대/축소</h2>
+              <ol>
+                <li><strong>🔍 확대:</strong> 보드 화면을 10%씩 확대합니다 (최대 200%).</li>
+                <li><strong>🔍 축소:</strong> 보드 화면을 10%씩 축소합니다 (최소 50%).</li>
+                <li><strong>↺ 초기화:</strong> 보드 화면을 원래 크기(100%)로 되돌립니다.</li>
+                <li><strong>사용 팁:</strong> 학생이 많을 때는 축소하여 전체를 보고, 세부 작업 시에는 확대하여 사용하세요.</li>
+              </ol>
+
               <h2>🗑️ 학생 삭제</h2>
               <ol>
                 <li><strong>삭제 모드 활성화:</strong> "삭제 모드: OFF" 버튼을 클릭하여 ON으로 변경하세요.</li>
@@ -96,6 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li><strong>출석부 보기:</strong> "출석부 보기" 버튼을 클릭하여 기록된 모든 학생 정보를 확인하세요.</li>
                 <li><strong>필터 선택:</strong> "출석부 조회" 섹션에서 학교와 날짜 드롭다운을 원하는 값으로 선택하세요.</li>
                 <li><strong>필터 적용:</strong> 학교와 날짜를 선택한 후 <strong>"출석부 보기"</strong> 버튼을 다시 클릭해야 필터링된 결과가 표시됩니다.</li>
+                <li><strong>학생 사진 추가:</strong> 각 학생 이름 옆의 📷 버튼을 클릭하여 얼굴 사진을 업로드하세요.</li>
+                <li><strong>사진 편집:</strong> 사진을 선택하면 크롭 편집 화면이 나타나며, 얼굴 부분만 선택하여 저장할 수 있습니다.</li>
                 <li><strong>기록 삭제:</strong> 삭제하고 싶은 기록의 체크박스를 선택하고 "선택 삭제" 버튼을 클릭하세요.</li>
                 <li><strong>전체 선택:</strong> 테이블 헤더의 체크박스를 클릭하면 현재 표시된 모든 항목을 선택/해제할 수 있습니다.</li>
                 <li><strong>보드 보기:</strong> "보드 보기" 버튼을 클릭하여 다시 학생 배치 화면으로 돌아갈 수 있습니다.</li>
@@ -103,6 +113,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
               <div class="important">
                 <strong>📌 중요:</strong> 출석부 필터링을 적용하려면 학교와 날짜를 선택한 후 반드시 "출석부 보기" 버튼을 다시 클릭해야 합니다!
+              </div>
+
+              <h2>📸 학생 사진 관리</h2>
+              <ol>
+                <li><strong>사진 업로드:</strong> 출석부에서 학생 이름 옆의 📷 버튼을 클릭하세요.</li>
+                <li><strong>이미지 선택:</strong> 컴퓨터나 휴대폰에서 사진을 선택합니다.</li>
+                <li><strong>사진 편집:</strong> 크롭 편집 화면에서 얼굴 부분을 선택하세요.
+                  <ul style="margin-top: 8px;">
+                    <li>드래그하여 영역 이동</li>
+                    <li>모서리를 드래그하여 크기 조절</li>
+                    <li>스크롤하여 확대/축소</li>
+                  </ul>
+                </li>
+                <li><strong>저장:</strong> "완료" 버튼을 클릭하면 원형으로 크롭된 사진이 저장됩니다.</li>
+                <li><strong>보드에 자동 표시:</strong> 사진이 저장되면 보드 화면의 학생 아이콘에도 이모지 대신 사진이 표시됩니다.</li>
+                <li><strong>사진 변경:</strong> 📷 버튼을 다시 클릭하여 언제든지 사진을 변경할 수 있습니다.</li>
+              </ol>
+
+              <div class="tip">
+                <strong>💡 팁:</strong> 출석부에서 학생 사진을 업로드하면, 보드 화면에서도 자동으로 해당 학생의 이모지가 사진으로 변경됩니다!
+              </div>
+
+              <h2>🔄 보드와 출석부 연동</h2>
+              <ol>
+                <li><strong>자동 동기화:</strong> 보드 화면과 출석부는 실시간으로 연동됩니다.</li>
+                <li><strong>보드에서 삭제:</strong> 보드 화면에서 학생을 삭제하면 출석부에서도 자동으로 삭제됩니다.</li>
+                <li><strong>출석부에서 삭제:</strong> 출석부에서 학생을 삭제하면 보드 화면에서도 자동으로 제거됩니다.</li>
+                <li><strong>날짜/학교/반 변경:</strong> 기본 정보를 변경하면 해당 날짜와 학교의 학생들이 보드에 자동으로 표시됩니다.</li>
+                <li><strong>화면 전환:</strong> "보드 보기"와 "출석부 보기"를 전환할 때마다 최신 데이터로 동기화됩니다.</li>
+              </ol>
+
+              <div class="important">
+                <strong>🔄 자동 동기화:</strong> 보드와 출석부는 항상 연동되어 있습니다. 한쪽에서 변경하면 다른 쪽도 자동으로 업데이트됩니다!
               </div>
 
               <h2>💾 CSV 파일로 저장</h2>
@@ -154,6 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const circularBtn       = document.getElementById('circular-btn');
   const gridBtn           = document.getElementById('grid-btn');
+  const zoomInBtn         = document.getElementById('zoom-in-btn');
+  const zoomOutBtn        = document.getElementById('zoom-out-btn');
+  const zoomResetBtn      = document.getElementById('zoom-reset-btn');
   const copyNamesBtn      = document.getElementById('copy-names-btn');
   const captureButton     = document.getElementById('capture-button');
   const deleteModeBtn     = document.getElementById('delete-mode-btn');
@@ -170,11 +216,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectAllCheckbox  = document.getElementById('select-all');
   const deleteSelectedBtn  = document.getElementById('delete-selected-btn');
 
+  // 이미지 크롭 관련
+  const cropModal = document.getElementById('crop-modal');
+  const cropImage = document.getElementById('crop-image');
+  const cropCancel = document.getElementById('crop-cancel');
+  const cropConfirm = document.getElementById('crop-confirm');
+  let cropper = null;
+  let currentStudentForPhoto = null;
+
   let deleteMode = false;
+  let zoomLevel = 1; // 기본 확대/축소 레벨
 
   // 유틸
   const sanitize = (s='') => (s||'').toString().trim().replace(/[\\/:*?"<>|]/g, '_');
   const todayStr = () => new Date().toISOString().slice(0,10);
+
+  // 학생 사진 저장소 (localStorage)
+  const photosKey = 'student-photos:v1';
+  const readPhotos = () => JSON.parse(localStorage.getItem(photosKey) || '{}');
+  const writePhotos = (obj) => localStorage.setItem(photosKey, JSON.stringify(obj));
+  
+  const getPhotoKey = (date, school, className, student) => {
+    return `${date}_${school}_${className}_${student}`;
+  };
+  
+  const saveStudentPhoto = (date, school, className, student, photoData) => {
+    const photos = readPhotos();
+    const key = getPhotoKey(date, school, className, student);
+    photos[key] = photoData;
+    writePhotos(photos);
+  };
+  
+  const getStudentPhoto = (date, school, className, student) => {
+    const photos = readPhotos();
+    const key = getPhotoKey(date, school, className, student);
+    return photos[key] || null;
+  };
 
   // 초기 날짜
   if (dateInput && !dateInput.value) dateInput.value = todayStr();
@@ -186,9 +263,29 @@ document.addEventListener('DOMContentLoaded', () => {
     schoolInfo.textContent = [s, c].filter(Boolean).join(' ');
   };
   [schoolNameInput, classNameInput].forEach(inp => {
-    if (inp) inp.addEventListener('input', updateSchoolInfo);
+    if (inp) {
+      inp.addEventListener('input', updateSchoolInfo);
+      // 학교나 반이 변경되면 보드 동기화
+      inp.addEventListener('change', () => {
+        syncBoardWithRoster();
+      });
+    }
   });
+  
+  // 날짜 변경 시에도 보드 동기화
+  if (dateInput) {
+    dateInput.addEventListener('change', () => {
+      syncBoardWithRoster();
+    });
+  }
+  
   updateSchoolInfo();
+
+  // 페이지 로드 시 보드와 출석부 동기화
+  window.addEventListener('load', () => {
+    // 초기 로드 시 출석부 데이터를 기반으로 보드 구성
+    syncBoardWithRoster();
+  });
 
   // 보조 유틸 함수들을 먼저 정의
   const getItems = () => [...studentContainer.querySelectorAll('.student-item')];
@@ -229,13 +326,34 @@ document.addEventListener('DOMContentLoaded', () => {
     del.className = 'delete-badge'; 
     del.textContent = '×';
     del.title = '삭제';
-    del.style.display = deleteMode ? 'flex' : 'none'; // 현재 삭제 모드 상태 반영
+    del.style.display = deleteMode ? 'flex' : 'none';
     div.appendChild(del);
 
-    const emojiSpan = document.createElement('span');
-    emojiSpan.className = 'emoji mr-2';
-    emojiSpan.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    div.appendChild(emojiSpan);
+    // 사진 확인 (현재 날짜, 학교, 반 정보 사용)
+    const currentDate = dateInput.value || todayStr();
+    const currentSchool = schoolNameInput.value || '';
+    const currentClass = classNameInput.value || '';
+    const photoData = getStudentPhoto(currentDate, currentSchool, currentClass, name);
+
+    if (photoData) {
+      // 사진이 있으면 사진 표시
+      const photoImg = document.createElement('img');
+      photoImg.className = 'student-photo';
+      photoImg.src = photoData;
+      photoImg.alt = name;
+      photoImg.style.width = '32px';
+      photoImg.style.height = '32px';
+      photoImg.style.borderRadius = '50%';
+      photoImg.style.objectFit = 'cover';
+      photoImg.style.border = '2px solid #fff';
+      div.appendChild(photoImg);
+    } else {
+      // 사진이 없으면 이모지 표시
+      const emojiSpan = document.createElement('span');
+      emojiSpan.className = 'emoji mr-2';
+      emojiSpan.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      div.appendChild(emojiSpan);
+    }
 
     const nameSpan = document.createElement('span');
     nameSpan.className = 'name';
@@ -246,6 +364,23 @@ document.addEventListener('DOMContentLoaded', () => {
     del.addEventListener('click', (e) => {
       e.stopPropagation();
       if (!deleteMode) return;
+      
+      // 출석부 기록에서도 삭제
+      const currentDate = dateInput.value || todayStr();
+      const currentSchool = schoolNameInput.value || '';
+      const currentClass = classNameInput.value || '';
+      
+      // localStorage에서 해당 학생 기록 삭제
+      let allRecords = readRecords();
+      allRecords = allRecords.filter(r => 
+        !(r.date === currentDate && 
+          r.school === currentSchool && 
+          r.class === currentClass && 
+          r.student === name)
+      );
+      writeRecords(allRecords);
+      
+      // DOM에서 제거
       div.remove();
       togglePlaceholder();
     });
@@ -506,6 +641,31 @@ document.addEventListener('DOMContentLoaded', () => {
   circularBtn.addEventListener('click', arrangeCircularAll);
   gridBtn.addEventListener('click', arrangeGridAll);
 
+  // 확대/축소 기능
+  const applyZoom = () => {
+    studentContainer.style.transform = `scale(${zoomLevel})`;
+    studentContainer.style.transformOrigin = 'center center';
+  };
+
+  zoomInBtn.addEventListener('click', () => {
+    if (zoomLevel < 2) { // 최대 200%
+      zoomLevel += 0.1;
+      applyZoom();
+    }
+  });
+
+  zoomOutBtn.addEventListener('click', () => {
+    if (zoomLevel > 0.5) { // 최소 50%
+      zoomLevel -= 0.1;
+      applyZoom();
+    }
+  });
+
+  zoomResetBtn.addEventListener('click', () => {
+    zoomLevel = 1;
+    applyZoom();
+  });
+
   // 출석부·CSV 관련
   const recordsKey = 'attendance-records:v1';
   const readRecords = () => JSON.parse(localStorage.getItem(recordsKey) || '[]');
@@ -541,7 +701,11 @@ document.addEventListener('DOMContentLoaded', () => {
     arr.forEach((r, idx) => {
       const tr = document.createElement('tr'); 
       tr.className = 'hover:bg-amber-50';
-      tr.dataset.recordIndex = idx; // 전역 인덱스 저장
+      tr.dataset.recordIndex = idx;
+      
+      // 사진 가져오기
+      const photoData = getStudentPhoto(r.date, r.school, r.class, r.student);
+      
       tr.innerHTML = `
         <td class="px-3 sm:px-4 py-2">
           <input type="checkbox" class="record-checkbox rounded border-gray-300 text-amber-600 focus:ring-amber-500" data-record='${JSON.stringify(r)}'/>
@@ -549,9 +713,69 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="px-3 sm:px-4 py-2">${r.date}</td>
         <td class="px-3 sm:px-4 py-2">${r.school}</td>
         <td class="px-3 sm:px-4 py-2">${r.class}</td>
-        <td class="px-3 sm:px-4 py-2">${r.student}</td>
+        <td class="px-3 sm:px-4 py-2">
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              ${photoData 
+                ? `<img src="${photoData}" class="w-10 h-10 rounded-full object-cover border-2 border-gray-200" alt="${r.student}"/>` 
+                : `<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-xs">사진</div>`
+              }
+              <button class="absolute -bottom-1 -right-1 bg-amber-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-amber-600 photo-upload-btn" 
+                      data-date="${r.date}" data-school="${r.school}" data-class="${r.class}" data-student="${r.student}" title="사진 업로드">
+                📷
+              </button>
+            </div>
+            <span>${r.student}</span>
+          </div>
+        </td>
         <td class="px-3 sm:px-4 py-2 text-gray-500">${new Date(r.createdAt).toLocaleString()}</td>`;
       rosterTbody.appendChild(tr);
+    });
+    
+    // 사진 업로드 버튼 이벤트 등록
+    document.querySelectorAll('.photo-upload-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const date = btn.dataset.date;
+        const school = btn.dataset.school;
+        const className = btn.dataset.class;
+        const student = btn.dataset.student;
+        
+        currentStudentForPhoto = { date, school, class: className, student };
+        
+        // 파일 선택 대화상자 열기
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              // 크롭 모달 표시
+              cropImage.src = event.target.result;
+              cropModal.classList.remove('hidden');
+              
+              // Cropper 초기화
+              if (cropper) {
+                cropper.destroy();
+              }
+              cropper = new Cropper(cropImage, {
+                aspectRatio: 1,
+                viewMode: 1,
+                scalable: true,
+                zoomable: true,
+                cropBoxResizable: true,
+                cropBoxMovable: true,
+                minCropBoxWidth: 100,
+                minCropBoxHeight: 100,
+              });
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+        input.click();
+      });
     });
   };
 
@@ -649,6 +873,20 @@ document.addEventListener('DOMContentLoaded', () => {
     populateFilters();
     rosterTbodyRender();
     
+    // 보드 화면도 업데이트 (현재 날짜/학교/반과 일치하는 학생 제거)
+    const currentDate = dateInput.value || todayStr();
+    const currentSchool = schoolNameInput.value || '';
+    const currentClass = classNameInput.value || '';
+    
+    recordsToDelete.forEach(delRecord => {
+      // 현재 보드와 일치하는 기록만 보드에서도 제거
+      if (delRecord.date === currentDate && 
+          delRecord.school === currentSchool && 
+          delRecord.class === currentClass) {
+        removeStudentFromBoard(delRecord.student);
+      }
+    });
+    
     alert(`${recordsToDelete.length}개의 기록이 삭제되었습니다.`);
   });
 
@@ -663,6 +901,8 @@ document.addEventListener('DOMContentLoaded', () => {
   boardBtn.addEventListener('click', () => {
     rosterView.classList.add('hidden');
     boardView.classList.remove('hidden');
+    // 보드 화면으로 돌아올 때 사진 새로고침 및 출석부와 동기화
+    syncBoardWithRoster();
   });
 
   // 필터 변경 시 전체 선택 해제 및 테이블 갱신
@@ -677,9 +917,164 @@ document.addEventListener('DOMContentLoaded', () => {
     rosterTbodyRender();
   });
 
+  // 크롭 모달 취소
+  cropCancel.addEventListener('click', () => {
+    cropModal.classList.add('hidden');
+    if (cropper) {
+      cropper.destroy();
+      cropper = null;
+    }
+    currentStudentForPhoto = null;
+  });
+
+  // 크롭 확인
+  cropConfirm.addEventListener('click', () => {
+    if (!cropper || !currentStudentForPhoto) return;
+    
+    // 크롭된 이미지 가져오기
+    const canvas = cropper.getCroppedCanvas({
+      width: 200,
+      height: 200,
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: 'high',
+    });
+    
+    const croppedImageData = canvas.toDataURL('image/jpeg', 0.9);
+    
+    // 저장
+    saveStudentPhoto(
+      currentStudentForPhoto.date,
+      currentStudentForPhoto.school,
+      currentStudentForPhoto.class,
+      currentStudentForPhoto.student,
+      croppedImageData
+    );
+    
+    // 모달 닫기
+    cropModal.classList.add('hidden');
+    if (cropper) {
+      cropper.destroy();
+      cropper = null;
+    }
+    
+    // 테이블 새로고침
+    rosterTbodyRender();
+    
+    // 보드 화면도 업데이트 (현재 보드에 해당 학생이 있다면)
+    refreshBoardPhotos();
+    
+    currentStudentForPhoto = null;
+  });
+
+  // 보드 화면의 학생 사진 새로고침 함수
+  const refreshBoardPhotos = () => {
+    const currentDate = dateInput.value || todayStr();
+    const currentSchool = schoolNameInput.value || '';
+    const currentClass = classNameInput.value || '';
+    
+    const studentItems = getItems();
+    studentItems.forEach(item => {
+      const nameSpan = item.querySelector('.name');
+      if (!nameSpan) return;
+      
+      const studentName = nameSpan.textContent.trim();
+      const photoData = getStudentPhoto(currentDate, currentSchool, currentClass, studentName);
+      
+      // 기존 이모지 또는 사진 제거
+      const existingEmoji = item.querySelector('.emoji');
+      const existingPhoto = item.querySelector('.student-photo');
+      if (existingEmoji) existingEmoji.remove();
+      if (existingPhoto) existingPhoto.remove();
+      
+      // 삭제 버튼 다음에 삽입하기 위해 위치 찾기
+      const deleteBtn = item.querySelector('.delete-badge');
+      
+      if (photoData) {
+        // 사진이 있으면 사진 표시
+        const photoImg = document.createElement('img');
+        photoImg.className = 'student-photo';
+        photoImg.src = photoData;
+        photoImg.alt = studentName;
+        photoImg.style.width = '32px';
+        photoImg.style.height = '32px';
+        photoImg.style.borderRadius = '50%';
+        photoImg.style.objectFit = 'cover';
+        photoImg.style.border = '2px solid #fff';
+        item.insertBefore(photoImg, nameSpan);
+      } else {
+        // 사진이 없으면 이모지 표시
+        const emojiSpan = document.createElement('span');
+        emojiSpan.className = 'emoji mr-2';
+        emojiSpan.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        item.insertBefore(emojiSpan, nameSpan);
+      }
+    });
+  };
+
+  // 보드에서 특정 학생 제거 (이름으로 검색)
+  const removeStudentFromBoard = (studentName) => {
+    const studentItems = getItems();
+    studentItems.forEach(item => {
+      const nameSpan = item.querySelector('.name');
+      if (nameSpan && nameSpan.textContent.trim() === studentName) {
+        item.remove();
+      }
+    });
+    togglePlaceholder();
+  };
+
+  // 보드와 출석부 동기화 함수
+  const syncBoardWithRoster = () => {
+    const currentDate = dateInput.value || todayStr();
+    const currentSchool = schoolNameInput.value || '';
+    const currentClass = classNameInput.value || '';
+    
+    // 출석부에서 현재 날짜/학교/반의 학생 목록 가져오기
+    const allRecords = readRecords();
+    const currentRecords = allRecords.filter(r => 
+      r.date === currentDate && 
+      r.school === currentSchool && 
+      r.class === currentClass
+    );
+    const rosterStudents = [...new Set(currentRecords.map(r => r.student))];
+    
+    // 보드에 있는 학생 목록 가져오기
+    const boardItems = getItems();
+    const boardStudents = boardItems.map(item => {
+      const nameSpan = item.querySelector('.name');
+      return nameSpan ? nameSpan.textContent.trim() : '';
+    }).filter(Boolean);
+    
+    // 출석부에는 있지만 보드에는 없는 학생 추가
+    rosterStudents.forEach(student => {
+      if (!boardStudents.includes(student)) {
+        const item = createStudentItem(student);
+        studentContainer.appendChild(item);
+      }
+    });
+    
+    // 보드에는 있지만 출석부에는 없는 학생 제거
+    boardStudents.forEach(student => {
+      if (!rosterStudents.includes(student)) {
+        removeStudentFromBoard(student);
+      }
+    });
+    
+    // 사진 새로고침
+    refreshBoardPhotos();
+    togglePlaceholder();
+  };
+
+  // ESC 키로 모달 닫기
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !cropModal.classList.contains('hidden')) {
+      cropCancel.click();
+    }
+  });
+
   // 상단 메뉴 active 스타일 핸들링
   const updateMenuActive = () => {
-    [rosterBtn, boardBtn, circularBtn, gridBtn, copyNamesBtn, captureButton, deleteModeBtn].forEach(btn => {
+    [rosterBtn, boardBtn, circularBtn, gridBtn, zoomInBtn, zoomOutBtn, zoomResetBtn, copyNamesBtn, captureButton, deleteModeBtn].forEach(btn => {
       btn?.classList.remove('active-menu');
     });
   }
@@ -692,6 +1087,18 @@ document.addEventListener('DOMContentLoaded', () => {
   gridBtn.addEventListener('click', () => {
     updateMenuActive();
     gridBtn.classList.add('active-menu');
+  });
+  zoomInBtn.addEventListener('click', () => {
+    updateMenuActive();
+    zoomInBtn.classList.add('active-menu');
+  });
+  zoomOutBtn.addEventListener('click', () => {
+    updateMenuActive();
+    zoomOutBtn.classList.add('active-menu');
+  });
+  zoomResetBtn.addEventListener('click', () => {
+    updateMenuActive();
+    zoomResetBtn.classList.add('active-menu');
   });
   copyNamesBtn.addEventListener('click', () => {
     updateMenuActive();
